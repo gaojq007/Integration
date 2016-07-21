@@ -1,0 +1,18 @@
+integration:
+  services:
+    caicloudmongo:
+      image: index.caicloud.io/caicloud/mongo:3.0.5
+      command: mongod --smallfiles
+  image: index.caicloud.io/alice/test-basic-rest-version:v0.1.0
+  commands:
+    - ping -c 10 caicloudmongo
+
+pre_build:
+  image: index.caicloud.io/alice/test-basic-rest-version:v0.1.0
+  environment:
+    - STEP_NAME=prebuild
+  commands:
+    - cd /root
+    - echo $STEP_NAME > /root/newfile
+  outputs:
+    - /root/newfile
